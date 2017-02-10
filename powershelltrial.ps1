@@ -1,23 +1,19 @@
 ﻿while ($true)
 {
-    # check for process1
-    if((Get-Process -Name python) -eq $null)
+    sleep -s 20
+    if((Get-Process -Name python -ErrorAction SilentlyContinue) -eq $null)
     {
-        #check if chromiumn is running
-        if((Get-Process -Name chromium) -eq !$null)
+          if((Get-Process -Name chromium -ErrorAction SilentlyContinue) -ne $null)
         {
-            sleep -s 10  
+            (Stop-Process -Name chromium | Wait-Process -Name chromium)
+            cd "C:\Users\User\PycharmProjects\keysurveyscrape\Key Survey Webscrape"
+            python processing.py
         }
-
-    }
-    else
-    {
-        # check if chromium is still running, if so close.
-        if((Get-Process -Name chromium) -eq !$null)
+        else
         {
-            (Stop-Process -Name chromium | Wait-Process)
             cd "C:\Users\User\PycharmProjects\keysurveyscrape\Key Survey Webscrape"
             python processing.py
         }
     }
-}
+ }
+   
